@@ -3,6 +3,7 @@ package config
 import (
 	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/joho/godotenv"
 )
@@ -22,7 +23,9 @@ var Envs = initConfig()
 
 func initConfig() Config {
 	if err := godotenv.Load(); err != nil {
-		log.Fatalf("Error loading .env file: %v", err)
+		if err := godotenv.Load(filepath.Join("..", "..", "..", "..", ".env")); err != nil {
+			log.Fatalf("Error loading .env file: %v", err)
+		}
 	}
 
 	return Config{
